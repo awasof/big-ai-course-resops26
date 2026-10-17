@@ -390,6 +390,8 @@ a.file:hover { border-color: var(--ink-muted); }
 .hw-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .hw h3 { margin: 0; font-family: var(--font-serif); font-size: 21px; line-height: 28px; font-weight: 500; text-wrap: balance; }
 .hw .was { font-size: 14px; line-height: 21px; color: var(--ink-muted); margin: 0; }
+.hw-sub { display: flex; flex-direction: column; gap: 8px; }
+.hw-sub .ol-steps li { font-size: 15px; line-height: 23px; }
 .check { display: flex; flex-direction: column; gap: 6px; }
 .check-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .check-h .cnt { font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
@@ -631,6 +633,7 @@ a.file:hover { border-color: var(--ink-muted); }
   .btn[data-act="toc"] .lbl { display: inline; }
   .btn kbd { display: none; }
 }
+
 
 /* Главная курса: недели Игоря и все шесть недель. Только токены из styles.css курса. */
 .hub-weeks { display: grid; grid-template-columns: 1fr; gap: 16px; }
