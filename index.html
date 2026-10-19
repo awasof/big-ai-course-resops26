@@ -635,6 +635,23 @@ a.file:hover { border-color: var(--ink-muted); }
 }
 
 
+/* ---------- Слова ведущего под слайдом ---------- */
+.words { border-left: 3px solid var(--clay); padding: 2px 0 2px 20px; font-family: var(--font-serif); font-size: 18px; line-height: 28px; color: var(--ink); max-width: 760px; }
+.words p { margin: 0 0 12px; }
+.words p:last-child { margin-bottom: 0; }
+@media (max-width: 719px) { .words { font-size: 16px; line-height: 25px; padding-left: 14px; } }
+
+/* ---------- Проба на слайде ---------- */
+.sl-pill.probe::before { border: 0; width: 7px; height: 7px; background: currentColor; transform: rotate(45deg); }
+
+/* ---------- Полоска времени слайда (версия ведущего) ---------- */
+.tm-line { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: transparent; pointer-events: none; z-index: 2; }
+.tm-line i { display: block; height: 100%; width: 0; background: var(--ink-muted); opacity: .45; transition: width .25s linear; }
+.tm-line.warn i { background: var(--clay); opacity: .8; }
+.tm-line.over i { background: var(--clay); opacity: 1; }
+.tm-line.paused i { opacity: .2; }
+.stage.reflow .tm-line { display: none; }
+
 /* Главная курса: недели Игоря и все шесть недель. Только токены из styles.css курса. */
 .hub-weeks { display: grid; grid-template-columns: 1fr; gap: 16px; }
 @media (min-width: 900px) { .hub-weeks { grid-template-columns: repeat(3, 1fr); } }
@@ -661,7 +678,7 @@ a.file:hover { border-color: var(--ink-muted); }
 <header class="tb gut"><div class="tb-left"><span class="tb-home">ИИ в исследованиях</span><span class="tb-sep"></span><span class="tb-kind">ResearchOpsEducation</span></div><div class="tb-right"><button class="btn" data-act="theme" aria-label="Сменить тему" title="Светлая или тёмная тема" style="padding:0 10px"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button></div></header>
 <main class="page gut"><div class="page-in">
 <section class="hero">
-<div class="hero-chips"><span class="chip"><b>20 октября — 26 ноября 2026</b></span><span class="chip">по вторникам, 19:00 по Москве</span><span class="chip">онлайн</span></div>
+<div class="hero-chips"><span class="chip"><b>20 октября — 26 ноября 2026</b></span><span class="chip">вт и чт — 18:30–20:00, сб — 10:00–11:30 по Москве</span><span class="chip">онлайн</span></div>
 <span class="caps">ResearchOpsEducation · большой курс · шесть недель</span>
 <h1>ИИ в исследованиях</h1>
 <p class="lead">От инструментов до стандартов работы. Здесь — материалы недель, которые ведёт Игорь Волошин: 1, 3 и 5.</p>
@@ -669,8 +686,8 @@ a.file:hover { border-color: var(--ink-muted); }
 <section class="block"><h2>Недели 1, 3 и 5</h2><div class="hub-weeks"><article class="wk ready"><div class="wk-top"><span class="wk-n">1</span><span class="chip"><b>20 октября</b></span></div><h3>Инструментарий</h3><p class="idea">ИИ — это не один чат, а несколько слоёв: модель, приложение, режим работы и то, что к ним подключено.</p><p class="out"><span class="caps">На выходе</span><br>Общая база на шесть недель, поставленный Claude Code и своя аудиозапись.</p><div class="go"><a class="btn btn-main" href="nedelya-1/">Открыть неделю 1 →</a></div></article><article class="wk"><div class="wk-top"><span class="wk-n">3</span><span class="chip"><b>3 ноября</b></span></div><h3>Мастерская</h3><p class="idea">Чтобы собрать свой инструмент, не нужно уметь писать код. Нужно понимать, из чего состоит программа и где она живёт.</p><p class="out"><span class="caps">На выходе</span><br>Свой MCP-сервер к таблице исследований, дома — рекордер встреч.</p><div class="go"><span class="soon">Материалы появятся ближе к занятию</span></div></article><article class="wk"><div class="wk-top"><span class="wk-n">5</span><span class="chip"><b>17 ноября</b></span></div><h3>Лаборатория опроса</h3><p class="idea">В опросе модель работает не аналитиком, а тремя работниками: программистом, разметчиком и рассказчиком.</p><p class="out"><span class="caps">На выходе</span><br>Анкета, собранная с ИИ, разметка открытых ответов и числа, посчитанные кодом.</p><div class="go"><span class="soon">Материалы появятся ближе к занятию</span></div></article></div></section>
 <section class="block"><h2>Все шесть недель</h2><p class="sub">Недели складываются в одну линию: результат одной становится материалом следующей. Недели 2, 4 и 6 ведёт Алёна Захарова.</p>
 <div class="tw"><table class="dt hub-table"><thead><tr><th>Неделя</th><th>Дата</th><th>Тема</th><th>Ведёт</th><th>На выходе</th></tr></thead><tbody><tr class=""><td>1</td><td>20 октября</td><td><a href="nedelya-1/">Инструментарий</a></td><td>Игорь Волошин</td><td>Общая база на шесть недель, поставленный Claude Code и своя аудиозапись.</td></tr><tr class="other"><td>2</td><td>27 октября</td><td>Штаб исследователя</td><td>Алёна Захарова</td><td>Папка исследования, список проектов, дашборд со стадиями.</td></tr><tr class=""><td>3</td><td>3 ноября</td><td>Мастерская</td><td>Игорь Волошин</td><td>Свой MCP-сервер к таблице исследований, дома — рекордер встреч.</td></tr><tr class="other"><td>4</td><td>10 ноября</td><td>Лаборатория интервью</td><td>Алёна Захарова</td><td>Интервью, разложенное на наблюдения, выводы с привязкой к цитатам.</td></tr><tr class=""><td>5</td><td>17 ноября</td><td>Лаборатория опроса</td><td>Игорь Волошин</td><td>Анкета, собранная с ИИ, разметка открытых ответов и числа, посчитанные кодом.</td></tr><tr class="other"><td>6</td><td>24 ноября</td><td>Отдел развития</td><td>Алёна Захарова</td><td>Наблюдатель за индустрией, свод правил для проверки документов.</td></tr></tbody></table></div></section>
-<section class="block"><h2>Ритм недели</h2><div class="tw"><table class="dt"><thead><tr><th>Когда</th><th>Что</th></tr></thead><tbody><tr><td>Вторник</td><td>Занятие: 90 минут и 30 минут вопросов</td></tr><tr><td>Четверг</td><td>Часы вопросов: разбираем, что не завелось</td></tr><tr><td>Суббота</td><td>Разбор работ: вы показываете результат</td></tr></tbody></table></div></section>
-<footer class="hub-foot"><p>Обновлено 17 октября 2026</p><p><a href="https://researchops-education.timepad.ru/event/4190835/" target="_blank" rel="noopener">Страница курса на Timepad ↗</a></p></footer>
+<section class="block"><h2>Ритм недели</h2><div class="tw"><table class="dt"><thead><tr><th>Когда</th><th>Что</th></tr></thead><tbody><tr><td>Вторник, 18:30–20:00</td><td>Занятие, 90 минут</td></tr><tr><td>Четверг, 18:30–20:00</td><td>Часы вопросов: разбираем, что не завелось</td></tr><tr><td>Суббота, 10:00–11:30</td><td>Разбор работ: вы показываете результат</td></tr></tbody></table></div></section>
+<footer class="hub-foot"><p>Обновлено 19 октября 2026</p><p><a href="https://researchops-education.timepad.ru/event/4190835/" target="_blank" rel="noopener">Страница курса на Timepad ↗</a></p></footer>
 </div></main></div>
 <script>
 (() => {
