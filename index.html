@@ -230,6 +230,8 @@ code, .mono { font-family: var(--font-mono); font-size: .875em; }
 .btn-show[aria-pressed="true"] b { color: var(--on-clay); }
 @media (max-width: 1180px) { .btn .lbl { display: none; } }
 @media (max-width: 1640px) { body.notes-open .btn .lbl, body.notes-open .tb-part, body.notes-open .tb-sep.s2, body.notes-open .tb-home .long { display: none; } }
+/* Кнопка заметок ведущего подписана всегда, пока панель закрыта: на узком экране одна буква N незаметна */
+@media (min-width: 560px) { body:not(.notes-open) .btn[data-act="notes"] .lbl { display: inline; } }
 
 /* ---------- Верхняя строка ---------- */
 .tb { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; height: var(--tb-h); display: flex; align-items: center; gap: 16px; background: var(--surface); border-bottom: 1px solid var(--line); }
