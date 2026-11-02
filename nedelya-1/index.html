@@ -660,6 +660,76 @@ a.file:hover { border-color: var(--ink-muted); }
 .tm-line.paused i { opacity: .2; }
 .stage.reflow .tm-line { display: none; }
 
+/* ---------- Цикл опроса: верхнеуровневая схема (блок cycle) ----------
+   Обычный шаг — подложка, текущий — clay («вы здесь»), дальше по ходу — бледнее.
+   Над всеми шагами — полоса sky, после первого прохода — штриховка sage, поле — пунктир. */
+.x-cycle { display: block; max-width: 100%; height: auto; overflow: visible; font-family: var(--font-sans); }
+.x-cycle text { font-family: var(--font-sans); }
+.x-cycle .cy-box { fill: var(--surface-sunk); }
+.x-cycle .cy-t { font-size: 14px; font-weight: 600; fill: var(--ink); }
+.x-cycle .cy-s { font-size: 12px; fill: var(--ink-muted); }
+.x-cycle .cy-rl { font-size: 13px; font-weight: 600; fill: var(--ink); }
+.x-cycle .cy-rt, .x-cycle .cy-tag { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; fill: var(--ink-muted); }
+.x-cycle .cy-br { stroke: var(--ink-faint); stroke-width: 1; }
+.x-cycle .cy-field { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 4 4; }
+.x-cycle .cy-ft { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; fill: var(--ink-muted); paint-order: stroke; stroke: var(--surface); stroke-width: 8px; }
+.x-cycle .cy-band.top { fill: color-mix(in srgb, var(--sky) 16%, transparent); stroke: var(--sky); stroke-width: 1; }
+.x-cycle .cy-band.bot { stroke: var(--sage); stroke-width: 1; }
+.x-cycle .cy-hbg { fill: var(--surface); }
+.x-cycle .cy-hl { stroke: color-mix(in srgb, var(--sage) 45%, transparent); stroke-width: 2; }
+.x-cycle .cy-bt { font-size: 13px; font-weight: 500; fill: var(--ink); }
+.x-cycle .cy-bt.cur { font-weight: 600; }
+.x-cycle .cy-step.cur .cy-box, .x-cycle .cy-band.cur { fill: var(--clay); stroke: var(--clay); }
+.x-cycle .cy-step.cur .cy-t, .x-cycle .cy-step.cur .cy-s, .x-cycle .cy-bt.cur, .x-cycle .cy-tag.cur { fill: var(--on-clay); }
+.x-cycle .cy-step.next, .x-cycle .cy-band.next, .x-cycle .cy-bt.next, .x-cycle .cy-tag.next { opacity: .4; }
+.x-cycle .cy-mark { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; fill: var(--clay-text); }
+.x-cycle.compact .cy-t { font-size: 13.5px; }
+.x-cycle.compact .cy-bt { font-size: 12.5px; }
+.sl-dark .x-cyclewrap { margin-bottom: -12px; }
+.sl-dark .x-cyclewrap ~ .x-sec .sl-lead { max-width: 720px; }
+/* на тёмном слайде-разделе */
+.sl-dark .x-cycle .cy-box { fill: rgba(255, 255, 255, .08); }
+.sl-dark .x-cycle .cy-t, .sl-dark .x-cycle .cy-rl, .sl-dark .x-cycle .cy-bt { fill: var(--on-slab); }
+.sl-dark .x-cycle .cy-s, .sl-dark .x-cycle .cy-rt, .sl-dark .x-cycle .cy-tag, .sl-dark .x-cycle .cy-ft { fill: var(--on-slab-muted); }
+.sl-dark .x-cycle .cy-ft { stroke: var(--slab); }
+.sl-dark .x-cycle .cy-br, .sl-dark .x-cycle .cy-field { stroke: var(--on-slab-muted); opacity: .6; }
+.sl-dark .x-cycle .cy-band.top { fill: color-mix(in srgb, var(--sky) 26%, transparent); }
+.sl-dark .x-cycle .cy-hbg { fill: var(--slab); }
+.sl-dark .x-cycle .cy-hl { stroke: color-mix(in srgb, var(--sage) 55%, transparent); }
+.sl-dark .x-cycle .cy-mark { fill: var(--clay); }
+.sl-dark .x-cycle .cy-step.cur .cy-t, .sl-dark .x-cycle .cy-step.cur .cy-s, .sl-dark .x-cycle .cy-bt.cur, .sl-dark .x-cycle .cy-tag.cur { fill: var(--on-clay); }
+.sl-dark .x-cycle .cy-step.next, .sl-dark .x-cycle .cy-band.next, .sl-dark .x-cycle .cy-bt.next, .sl-dark .x-cycle .cy-tag.next { opacity: .32; }
+.stage.reflow .x-cyclewrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.stage.reflow .x-cycle { width: 720px; max-width: none; }
+.stage.reflow .x-html { overflow-x: auto; zoom: 1 !important; }
+
+/* ---------- проба недели 3: шаги с отметками слева, «что ожидаем» и файлы справа ---------- */
+.x-probe { display: grid; grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.x-probe .pr-steps { display: flex; flex-direction: column; gap: 4px; counter-reset: pst; margin: 0; padding: 0; }
+.x-probe .pr-steps li { list-style: none; counter-increment: pst; }
+.x-probe .pr-steps label { display: grid; grid-template-columns: 20px 16px 1fr; gap: 6px; align-items: start; font-size: 13.5px; line-height: 18px; cursor: pointer; }
+.x-probe .pr-steps label::before { content: counter(pst); font-family: var(--font-serif); color: var(--ink-muted); order: 1; text-align: right; }
+.x-probe .pr-steps input { order: 0; appearance: none; -webkit-appearance: none; margin: 1px 0 0; width: 17px; height: 17px; border: 1.5px solid var(--ink-muted); border-radius: 4px; display: grid; place-content: center; background: var(--surface); cursor: pointer; }
+.x-probe .pr-steps input::after { content: ""; width: 9px; height: 5px; border-left: 2px solid var(--surface); border-bottom: 2px solid var(--surface); transform: rotate(-45deg) translate(1px, -1px); opacity: 0; }
+.x-probe .pr-steps input:checked { background: var(--ink); border-color: var(--ink); }
+.x-probe .pr-steps input:checked::after { opacity: 1; }
+.x-probe .pr-steps span { order: 2; }
+.x-probe .pr-steps input:checked ~ span { color: var(--ink-muted); text-decoration: line-through; text-decoration-color: var(--ink-faint); }
+.x-probe .pr-side { display: flex; flex-direction: column; gap: 14px; }
+.x-probe .pr-exp, .x-probe .pr-files { display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; line-height: 18px; }
+.x-probe .pr-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.x-probe .pf { display: inline-flex; align-items: center; gap: 6px; min-height: 26px; padding: 3px 10px; border: 1px solid var(--line); border-radius: var(--radius-full); background: var(--surface); color: var(--ink); font: 500 12.5px/1.2 var(--font-sans); text-decoration: none; cursor: pointer; text-align: left; }
+.x-probe .pf:hover { border-color: var(--ink-muted); }
+.x-probe .pf .ext { font: 600 10px/1 var(--font-mono); letter-spacing: .04em; color: var(--clay-text); }
+.x-probe .pf.soon { opacity: .6; cursor: default; }
+.stage.reflow .x-probe { grid-template-columns: 1fr; gap: 16px; }
+.sl.is-probe { gap: 12px; }
+.sl.is-probe .sl-take { font-size: 17px; line-height: 24px; padding-top: 10px; }
+.sl.is-probe .sl-title { font-size: 28px; line-height: 34px; max-width: none; }
+.sl.is-probe .sl-lead { font-size: 16px; line-height: 22px; max-width: 820px; }
+.sl.is-probe .sl-caption { font-size: 13px; line-height: 18px; }
+.sl.is-probe .sl-pill { flex-shrink: 0; }
+
 </style>
 </head>
 <body>
@@ -7002,11 +7072,15 @@ window.LECTURE_HOST = {
    сборка без таймера и заметок; build.py его не использует.
    words — «Слова ведущего»: что ведущий говорит на слайде. Показываются только в заметках (N) как «Что говорю», под слайдом их нет.
    day: 'Чт, 22 октября' — с этого слайда начинается второе занятие недели: время по плану снова считается от meta.start.
+   Блоки схем: cycle — схема цикла из D.cycle с подсветкой текущего шага (hl), html — готовая схема в разметке
+   из «Лекция N/…схемы.html» внутри .xs, стили схем недели — в D.css (zoom — масштаб, чтобы схема встала в слайд). У раздела (kind: 'section') body рисуется над заголовком.
    kind: 'probe' — проба на занятии: на слайде плашка «Проба · N мин», на главной — отдельная строка времени.
    Слайды рисуются классами .sl-* из «Фирменный стиль/styles.css». */
 (() => {
   'use strict';
   const D = window.LECTURE;
+  /* Стили недели (например, схемы блока html) — D.css, вставляются в страницу один раз. */
+  if (D.css) { const st = document.createElement('style'); st.textContent = D.css; document.head.appendChild(st); }
   /* Заметки ведущего лежат в отдельном файле и попадают только в версию ведущего. */
   const HD = window.LECTURE_HOST;
   if (HD) {
@@ -7069,9 +7143,11 @@ window.LECTURE_HOST = {
   const active = () => ALL.filter(s => !isCut(s));
   function plan() {
     // at — минута от начала своего занятия: на слайде с полем day (второе занятие недели) отсчёт снова с meta.start
-    let t = 0, run = 0; const at = new Map();
-    for (const s of ALL) { if (s.day) run = 0; at.set(s.n, run); if (!isCut(s)) { t += mins(s); run += mins(s); } }
-    return { at, total: t };
+    // sess — минуты каждого занятия недели: лимит сверяем по занятию, вопросы в конце — от последнего
+    let t = 0, run = 0; const at = new Map(), sess = [];
+    for (const s of ALL) { if (s.day && run) { sess.push(run); run = 0; } at.set(s.n, run); if (!isCut(s)) { t += mins(s); run += mins(s); } }
+    sess.push(run);
+    return { at, total: t, sess };
   }
   const START = toMin(D.meta.start), END = toMin(D.meta.end);
   const partMin = p => active().filter(s => s.part === p.id).reduce((a, s) => a + mins(s), 0);
@@ -7119,6 +7195,58 @@ window.LECTURE_HOST = {
     return `<svg class="sl-chart x-svg" viewBox="0 0 832 230" width="832" height="230" role="img" aria-label="${esc(v.aria)}">${g}</svg>`;
   }
 
+  /* Схема цикла: строки шагов, полосы сверху и снизу, подписи частей. hl — что подсвечено (ключи шагов и полос),
+     fade — приглушить то, что после подсвеченного, mark — подпись у подсвеченного («вы здесь») */
+  let cycleN = 0;
+  // Схема цикла опроса из D.cycle. v.hl — ключи шагов в подсветке («А», «5», «top», «bottom»), v.fade — бледнее всё после них,
+  // v.mark — подпись под названием ряда вместо тега («вы здесь»), v.compact — без подписей шагов (для слайда-раздела)
+  function cycleSVG(C, v) {
+    if (!C) return '';
+    v = v || {};
+    const hl = new Set(arr(v.hl)), W = 832, x0 = 96, cp = !!v.compact;
+    const BH = cp ? 24 : 28, H = cp ? 40 : 58, G = cp ? 6 : 8;
+    const keys = [];
+    if (C.top) keys.push('top');
+    C.rows.forEach(r => r.steps.forEach(st => keys.push(st[0])));
+    if (C.bottom) keys.push('bottom');
+    const lastHl = Math.max(-1, ...keys.map((k, i) => hl.has(k) ? i : -1));
+    const cls = k => { const i = keys.indexOf(k); return hl.has(k) ? 'cur' : (v.fade && i > lastHl ? 'next' : ''); };
+    let g = '', y = 0;
+    const band = (key, b, cl) => {
+      const c = cls(key), ty = y + BH / 2 + 4.5;
+      g += `<rect class="cy-band ${cl} ${c}" x="0" y="${y}" width="${W}" height="${BH}" rx="6"/><text class="cy-bt ${c}" x="14" y="${ty}">${esc(b.t)}</text>${b.tag ? `<text class="cy-tag ${c}" x="${W - 12}" y="${ty}" text-anchor="end">${esc(b.tag)}</text>` : ''}`;
+      y += BH;
+    };
+    if (C.top) { band('top', C.top, 'top'); y += G; }
+    C.rows.forEach((r, ri) => {
+      if (ri > 0 && C.field) { g += `<line class="cy-field" x1="0" y1="${y + 6}" x2="${W}" y2="${y + 6}"/><text class="cy-ft" x="${W / 2}" y="${y + 10}" text-anchor="middle">${esc(C.field)}</text>`; y += cp ? 12 : 14; }
+      const n = r.steps.length, gp = n > 4 ? 10 : 14, bw = (W - x0 - gp * (n - 1)) / n;
+      const here = v.mark && r.steps.some(st => hl.has(st[0]));
+      g += `<text class="cy-rl" x="0" y="${y + (cp ? 18 : 24)}">${esc(r.label)}</text>`;
+      if (here) g += `<text class="cy-mark" x="0" y="${y + (cp ? 33 : 41)}">${esc(v.mark)}</text>`;
+      else if (r.tag) g += `<text class="cy-rt" x="0" y="${y + (cp ? 33 : 41)}">${esc(r.tag)}</text>`;
+      r.steps.forEach((st, i) => {
+        const [k, name, sub] = st, x = x0 + i * (bw + gp), c = cls(k);
+        g += `<g class="cy-step ${c}"><rect class="cy-box" x="${x.toFixed(1)}" y="${y}" width="${bw.toFixed(1)}" height="${H}" rx="8"/><text class="cy-t" x="${(x + 10).toFixed(1)}" y="${y + (cp ? 25 : 23)}">${esc(k)}. ${esc(name)}</text>${cp ? '' : `<text class="cy-s" x="${(x + 10).toFixed(1)}" y="${y + 42}">${esc(sub || '')}</text>`}</g>`;
+      });
+      y += H;
+      if (r.tags) {
+        y += 4;
+        r.tags.forEach(([a, b, t]) => {
+          const xa = x0 + a * (bw + gp), xb = x0 + b * (bw + gp) + bw;
+          g += `<line class="cy-br" x1="${xa.toFixed(1)}" y1="${y + 2}" x2="${xb.toFixed(1)}" y2="${y + 2}"/><text class="cy-tag" x="${((xa + xb) / 2).toFixed(1)}" y="${y + 15}" text-anchor="middle">${esc(t)}</text>`;
+        });
+        y += 18;
+      }
+      y += G;
+    });
+    if (C.bottom) band('bottom', C.bottom, 'bot');
+    const pid = 'cy-hatch-' + (++cycleN);
+    g = g.replace('class="cy-band bot', `fill="url(#${pid})" class="cy-band bot`);
+    const pat = `<defs><pattern id="${pid}" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" class="cy-hbg"/><line x1="0" y1="0" x2="0" y2="7" class="cy-hl"/></pattern></defs>`;
+    return `<svg class="x-cycle${cp ? ' compact' : ''}" viewBox="0 0 ${W} ${y}" width="${W}" height="${y}" role="img" aria-label="${esc(v.aria || C.aria || 'Схема цикла опроса')}">${pat}${g}</svg>`;
+  }
+
   const B = {
     p: v => `<p class="sl-body">${md(v)}</p>`,
     lead: v => `<p class="sl-lead">${md(v)}</p>`,
@@ -7144,6 +7272,16 @@ window.LECTURE_HOST = {
     shots: (v, b) => `<div class="x-shots" style="grid-template-columns:repeat(${b.cols || v.length},1fr)">${v.map(x => shotHTML(x, b.wide)).join('')}</div>`,
     fig: v => `<div class="x-fig"><b>${md(v[0])}</b><span>${md(v[1])}</span></div>`,
     dates: v => `<div class="x-dates">${v.map(d => `<div${d.accent ? ' class="is-accent"' : ''}><b>${md(d.h)}</b><span>${md(d.p)}</span></div>`).join('')}</div>`,
+    cycle: v => `<div class="x-cyclewrap">${cycleSVG(D.cycle, v)}</div>`,
+    html: (v, b) => `<div class="x-html xs"${b.zoom ? ` style="zoom:${b.zoom}"` : ''}>${v}</div>`,
+    // Проба недели 3: шаги с отметками (запоминаются в браузере), «что ожидаем», файлы и промпты прямо на слайде
+    probe: v => {
+      const steps = (v.steps || []).map((x, i) => { const k = `${v.id}:${i}`, on = store.get('ck:' + k, false); return `<li><label><input type="checkbox" data-ck="${esc(k)}"${on ? ' checked' : ''}><span>${md(x)}</span></label></li>`; }).join('');
+      const files = (v.files || []).map(f => { const got = fileOf(f); return got ? `<a class="pf" href="${esc(got[0])}" download target="_blank" rel="noopener"><span class="ext">${esc(got[1])}</span>${md(f.t)}</a>` : `<span class="pf soon"><span class="ext">${esc(f.ext || 'FILE')}</span>${md(f.t)}</span>`; });
+      const prompts = (v.prompts || []).filter(n => D.prompts[n]).map(n => `<button class="pf pp" data-copy="${esc(n)}" title="Скопировать промпт"><span class="ext">⧉</span>${esc(n)}</button>`);
+      const links = files.concat(prompts);
+      return `<div class="x-probe">${steps ? `<ol class="pr-steps">${steps}</ol>` : ''}<div class="pr-side">${v.expect ? `<div class="pr-exp"><span class="sl-label">Что ожидаем</span><span>${md(v.expect)}</span></div>` : ''}${links.length ? `<div class="pr-files"><span class="sl-label">${esc(v.filesL || 'Файлы и промпты')}</span><span class="pr-row">${links.join('')}</span></div>` : ''}</div></div>`;
+    },
     row: (v, b) => `<div class="x-row"${b.w ? ` style="grid-template-columns:${b.w}"` : ''}>${v.map(col => `<div class="x-stack"${b.g ? ` style="gap:${b.g}px"` : ''}>${arr(col).map(block).join('')}</div>`).join('')}</div>`
   };
   function block(b) { const k = Object.keys(b).find(k => B[k]); return k ? B[k](b[k], b) : ''; }
@@ -7160,9 +7298,9 @@ window.LECTURE_HOST = {
     if (face === 1 && s.demo) return demoSlide(s);
     const p = partOf(s);
     if (s.kind === 'title' || s.kind === 'final') return `<div class="sl">${metaRow(s)}<div class="sl-head" style="margin-top:auto"><h1 class="sl-display">${md(s.t)}</h1>${s.lead ? `<p class="sl-lead">${md(s.lead)}</p>` : ''}</div><p class="sl-take sl-small" style="font-family:var(--font-sans);margin-top:var(--space-5)">${md(s.foot)}</p></div>`;
-    if (s.kind === 'section') return `<div class="sl sl-dark">${metaRow(s)}<div class="x-sec" style="display:flex;gap:var(--space-5);align-items:flex-end;margin-top:auto">${p.num != null && !s.nonum ? `<div class="sl-partnum">${p.num}</div>` : ''}<div class="sl-head" style="padding-bottom:12px"><h2 class="sl-title">${md(s.t)}</h2><p class="sl-lead">${md(s.lead)}${S.short && s.short && s.short.note ? ' ' + md(s.short.note) : ''}</p></div></div></div>`;
-    let h = `<div class="sl"${s.gap ? ` style="gap:${s.gap}px"` : ''}>${metaRow(s)}`;
-    if (s.kind === 'probe') h += `<span class="sl-pill probe">Проба · ${esc(fmtMin(mins(s)))}</span>`;
+    if (s.kind === 'section') return `<div class="sl sl-dark">${metaRow(s)}${(s.body || []).map(block).join('')}<div class="x-sec" style="display:flex;gap:var(--space-5);align-items:flex-end;margin-top:auto">${p.num != null && !s.nonum ? `<div class="sl-partnum">${p.num}</div>` : ''}<div class="sl-head" style="padding-bottom:12px"><h2 class="sl-title">${md(s.t)}</h2><p class="sl-lead">${md(s.lead)}${S.short && s.short && s.short.note ? ' ' + md(s.short.note) : ''}</p></div></div></div>`;
+    let h = `<div class="sl${(s.kind === 'probe' && D.meta.probeTime === false) || s.cls === 'probe-like' ? ' is-probe' : ''}"${s.gap ? ` style="gap:${s.gap}px"` : ''}>${metaRow(s)}`;
+    if (s.kind === 'probe') h += `<span class="sl-pill probe">Проба${D.meta.probeTime === false ? '' : ' · ' + esc(fmtMin(mins(s)))}</span>`;
     h += `<div class="sl-head"><h2 class="sl-title"${s.tw ? ` style="max-width:${s.tw}px"` : ''}>${md(s.t)}</h2>${s.lead ? `<p class="sl-lead"${s.lw ? ` style="max-width:${s.lw}px"` : ''}>${md(s.lead)}</p>` : ''}</div>`;
     for (const b of s.body || []) h += block(b);
     for (const c of arr(s.cap)) h += `<p class="sl-caption">${md(c)}</p>`;
@@ -7243,7 +7381,7 @@ window.LECTURE_HOST = {
   }
   setInterval(() => { T.tick(); draw(); }, 250);
   function slideSeconds(s) {
-    if (s.kind === 'final') { const p = plan(); return Math.max(0, (END - START - p.total)) * 60; }
+    if (s.kind === 'final') { const p = plan(); return Math.max(0, (END - START - p.sess[p.sess.length - 1])) * 60; }
     return mins(s) * 60;
   }
 
@@ -7311,6 +7449,7 @@ window.LECTURE_HOST = {
     if (m.files) h += filesHTML(m.files, true);
     if (m.shots) h += `<div class="x-shots" style="grid-template-columns:repeat(${Math.min(m.shots.length, 2)},1fr)">${m.shots.map(x => shotHTML(x)).join('')}</div>`;
     for (const p of arr(m.prompt)) h += promptHTML(p);
+    if (m.html) h += `<div class="x-html xs in-details">${m.html}</div>`;
     if (m.after) h += `<div class="prose">${paras(m.after)}</div>`;
     return h;
   }
@@ -7394,7 +7533,7 @@ window.LECTURE_HOST = {
     document.title = `${D.meta.course} · Неделя ${D.meta.week}. ${D.meta.title}`;
     const m = D.meta, pl = plan();
     const parts = D.parts.map(p => ({ p, min: partMin(p), first: active().find(s => s.part === p.id) }));
-    const q = Math.max(0, END - START - pl.total);
+    const q = Math.max(0, END - START - pl.sess[pl.sess.length - 1]);
     let t = START;
     const rows = parts.map(({ p, min, first }) => {
       const sl = ALL.filter(s => s.part === p.id);
@@ -7407,7 +7546,7 @@ window.LECTURE_HOST = {
     const talkMin = active().filter(s => !s.demo && !['qs', 'final', 'try', 'probe'].includes(s.kind)).reduce((a, s) => a + mins(s), 0);
     const probeMin = active().filter(s => s.kind === 'probe').reduce((a, s) => a + mins(s), 0);
     const askMin = active().filter(s => ['qs', 'try'].includes(s.kind)).reduce((a, s) => a + mins(s), 0);
-    const over = pl.total - D.meta.limit;
+    const over = Math.max(...pl.sess) - D.meta.limit;
     const seg = HOST ? `<div class="seg" role="group" aria-label="Версия занятия"><button data-act="short-off" aria-pressed="${!S.short}">Полная</button><button data-act="short-on" aria-pressed="${S.short}">Короткая${R4 ? ' · Р4' : ''}</button></div>` : '';
     app.innerHTML = `<div class="app">${topbarPage('home')}<main class="page gut"><div class="page-in">
       <section class="hero">
@@ -7421,7 +7560,7 @@ window.LECTURE_HOST = {
       ${m.notice ? `<div class="note"><span class="caps">${esc(m.notice.h)}</span><p>${md(m.notice.t)}</p></div>` : ''}
       <section class="block"><h2>Главная идея</h2><p class="idea">${md(m.idea)}</p></section>
       <section class="block map"><h2>Карта занятия</h2>
-        <div class="stats">${HOST ? seg : ''}<span>Всего <b>${fmtNum(pl.total)} мин</b>${HOST && over > 0 ? ` · на ${fmtNum(over)} больше лимита ${m.limit}` : ''}</span><span>рассказ <b>${fmtNum(talkMin)}</b></span><span>рассказ и показ <b>${fmtNum(showMin)}</b></span>${probeMin ? `<span>пробы <b>${fmtNum(probeMin)}</b></span>` : ''}<span>${esc(m.askLabel || 'знакомство и итог')} <b>${fmtNum(askMin)}</b></span></div>
+        <div class="stats">${HOST ? seg : ''}<span>Всего <b>${fmtNum(pl.total)} мин</b>${pl.sess.length > 1 ? ` · по занятиям ${pl.sess.map(x => fmtNum(Math.round(x * 10) / 10)).join(' + ')}` : ''}${HOST && over > 0 ? ` · на ${fmtNum(over)} больше лимита ${m.limit}` : ''}</span><span>рассказ <b>${fmtNum(talkMin)}</b></span><span>рассказ и показ <b>${fmtNum(showMin)}</b></span>${probeMin ? `<span>пробы <b>${fmtNum(probeMin)}</b></span>` : ''}<span>${esc(m.askLabel || 'знакомство и итог')} <b>${fmtNum(askMin)}</b></span></div>
         <div class="map-strip" aria-hidden="true">${strip}</div>
         <ol class="map-rows">${rows}</ol>
       </section>
@@ -7700,6 +7839,7 @@ window.LECTURE_HOST = {
     const i = e.target.closest('[data-ck]');
     if (!i) return;
     store.set('ck:' + i.dataset.ck, i.checked);
+    if (i.closest('.x-probe')) i.blur();
     const box = i.closest('[data-check]');
     if (box) { const all = $$('input', box); box.querySelector('[data-cnt]').textContent = `${all.filter(x => x.checked).length} из ${all.length}`; }
   });
