@@ -729,6 +729,11 @@ a.file:hover { border-color: var(--ink-muted); }
 .sl.is-probe .sl-lead { font-size: 16px; line-height: 22px; max-width: 820px; }
 .sl.is-probe .sl-caption { font-size: 13px; line-height: 18px; }
 .sl.is-probe .sl-pill { flex-shrink: 0; }
+/* скриншоты внутри шага домашки и раздела под слайдом */
+.ol-steps .step-shots { margin: 12px 0 4px; gap: 12px; }
+.ol-steps .step-shots { align-items: start; }
+.ol-steps .step-shots img { border: 1px solid var(--line); border-radius: 8px; width: auto; max-width: 100%; max-height: 260px; }
+.ol-steps li > span > .prompt, .ol-steps li > span > [class*=prompt] { margin-top: 10px; }
 
 /* Главная курса: недели Игоря и все шесть недель. Только токены из styles.css курса. */
 .hub-weeks { display: grid; grid-template-columns: 1fr; gap: 16px; }

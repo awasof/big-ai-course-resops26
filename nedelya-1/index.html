@@ -729,6 +729,11 @@ a.file:hover { border-color: var(--ink-muted); }
 .sl.is-probe .sl-lead { font-size: 16px; line-height: 22px; max-width: 820px; }
 .sl.is-probe .sl-caption { font-size: 13px; line-height: 18px; }
 .sl.is-probe .sl-pill { flex-shrink: 0; }
+/* скриншоты внутри шага домашки и раздела под слайдом */
+.ol-steps .step-shots { margin: 12px 0 4px; gap: 12px; }
+.ol-steps .step-shots { align-items: start; }
+.ol-steps .step-shots img { border: 1px solid var(--line); border-radius: 8px; width: auto; max-width: 100%; max-height: 260px; }
+.ol-steps li > span > .prompt, .ol-steps li > span > [class*=prompt] { margin-top: 10px; }
 
 </style>
 </head>
@@ -7285,6 +7290,12 @@ window.LECTURE_HOST = {
     row: (v, b) => `<div class="x-row"${b.w ? ` style="grid-template-columns:${b.w}"` : ''}>${v.map(col => `<div class="x-stack"${b.g ? ` style="gap:${b.g}px"` : ''}>${arr(col).map(block).join('')}</div>`).join('')}</div>`
   };
   function block(b) { const k = Object.keys(b).find(k => B[k]); return k ? B[k](b[k], b) : ''; }
+  // шаг списка: строка или {t, shots, prompt} — скриншоты и промпт прямо под текстом шага
+  function stepLI(x) {
+    if (typeof x === 'string') return `<li><span>${md(x)}</span></li>`;
+    const sh = arr(x.shots);
+    return `<li><span>${md(x.t)}${sh.length ? `<div class="x-shots step-shots" style="grid-template-columns:repeat(${Math.min(sh.length, x.cols || 2)},1fr)">${sh.map(s => shotHTML(s)).join('')}</div>` : ''}${arr(x.prompt).map(promptHTML).join('')}</span></li>`;
+  }
   function shotHTML(x, wide) {
     const src = SHOTS[x.file];
     return `<figure class="x-shot${wide ? ' wide' : ''}" style="margin:0">${src ? `<img src="${src}" alt="${esc(x.name)}" data-zoom="${esc(x.name)}">` : `<div class="ph">скриншот: ${esc(x.file)}</div>`}${x.nocap ? '' : `<figcaption class="cap">${md(x.name)}</figcaption>`}</figure>`;
@@ -7443,7 +7454,7 @@ window.LECTURE_HOST = {
     if (m.lead) h += `<p class="lead">${md(m.lead)}</p>`;
     if (m.text) h += `<div class="prose">${paras(m.text)}</div>`;
     if (m.list) h += `<div class="prose">${ul(m.list)}</div>`;
-    if (m.steps) h += `<ol class="ol-steps">${m.steps.map(x => `<li><span>${md(x)}</span></li>`).join('')}</ol>`;
+    if (m.steps) h += `<ol class="ol-steps">${m.steps.map(stepLI).join('')}</ol>`;
     if (m.table) h += tableHTML(m.table);
     if (m.links) h += linksHTML(m.links);
     if (m.files) h += filesHTML(m.files, true);
@@ -7454,7 +7465,7 @@ window.LECTURE_HOST = {
     return h;
   }
   function hwMini(h) {
-    return `<div class="hw"><div class="hw-top"><span class="chip${h.must ? ' clay' : ''}"><b>${esc(h.id)}</b> · ${h.must ? 'обязательно' : 'по желанию'}</span><a class="chip" href="#dz">Вся домашка →</a></div><h3>${md(h.t)}</h3>${h.was ? `<p class="was">${md(h.was)}</p>` : ''}</div>`;
+    return `<div class="hw"><div class="hw-top"><span class="chip${h.must ? ' clay' : ''}"><b>${esc(h.id)}</b> · ${h.must ? 'обязательно' : 'по желанию'}</span><a class="chip" href="#dz">Вся домашка →</a></div><h3>${md(h.t)}</h3>${h.was ? `<p class="was">${md(h.was)}</p>` : ''}${h.files ? `<div class="hw-sub"><span class="caps">Файлы</span>${filesHTML(h.files, true)}</div>` : ''}</div>`;
   }
   function detailsHTML(s) {
     const secs = [];
@@ -7599,7 +7610,7 @@ window.LECTURE_HOST = {
   }
   const PAGE_VIEWS = {
     dz() {
-      const card = h => `<article class="hw" id="${esc(h.id)}"><div class="hw-top"><span class="chip${h.must ? ' clay' : ''}"><b>${esc(h.id)}</b> · ${h.must ? 'обязательно' : 'по желанию'}</span>${arr(h.from).map(n => `<a class="chip" href="#s${n}">родилось на слайде ${n}</a>`).join('')}</div><h3>${md(h.t)}</h3>${h.was ? `<p class="was">${md(h.was)}</p>` : ''}${h.how ? `<div class="prose" style="font-size:15px">${paras(h.how)}</div>` : ''}${h.steps ? `<div class="hw-sub"><span class="caps">Шаги</span><ol class="ol-steps">${h.steps.map(x => `<li><span>${md(x)}</span></li>`).join('')}</ol></div>` : ''}${h.result ? `<div class="hw-sub"><span class="caps">Что получится и как показать</span><div class="prose" style="font-size:15px">${paras(h.result)}</div></div>` : ''}${h.check ? checklist(h.id, h.check) : ''}${h.retry ? `<div class="retry"><span class="caps">Если не получилось</span><span>${md(h.retry)}</span></div>` : ''}${arr(h.prompt).map(promptHTML).join('')}</article>`;
+      const card = h => `<article class="hw" id="${esc(h.id)}"><div class="hw-top"><span class="chip${h.must ? ' clay' : ''}"><b>${esc(h.id)}</b> · ${h.must ? 'обязательно' : 'по желанию'}</span>${arr(h.from).map(n => `<a class="chip" href="#s${n}">родилось на слайде ${n}</a>`).join('')}</div><h3>${md(h.t)}</h3>${h.was ? `<p class="was">${md(h.was)}</p>` : ''}${h.files ? `<div class="hw-sub"><span class="caps">Файлы</span>${filesHTML(h.files, true)}</div>` : ''}${h.how ? `<div class="prose" style="font-size:15px">${paras(h.how)}</div>` : ''}${h.steps ? `<div class="hw-sub"><span class="caps">Шаги</span><ol class="ol-steps">${h.steps.map(stepLI).join('')}</ol></div>` : ''}${h.result ? `<div class="hw-sub"><span class="caps">Что получится и как показать</span><div class="prose" style="font-size:15px">${paras(h.result)}</div></div>` : ''}${h.check ? checklist(h.id, h.check) : ''}${h.retry ? `<div class="retry"><span class="caps">Если не получилось</span><span>${md(h.retry)}</span></div>` : ''}${arr(h.prompt).map(promptHTML).join('')}</article>`;
       pageShell('dz', `${pageHead('Домашка недели ' + D.meta.week, D.hw.lead)}
         <section class="block"><h2>Обязательно</h2><div class="cos" style="gap:16px">${D.hw.must.map(card).join('')}</div></section>
         <section class="block"><h2>По желанию</h2><div class="cos" style="gap:16px">${D.hw.opt.map(card).join('')}</div></section>
