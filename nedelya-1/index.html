@@ -366,6 +366,22 @@ a.chip:hover { background: var(--line); }
 .prompt-h .nm { font-size: 14px; font-weight: 500; }
 .prompt pre { margin: 0; padding: 16px 18px; font-family: var(--font-mono); font-size: 14px; line-height: 22px; white-space: pre-wrap; word-break: break-word; }
 .prompt .hint { padding: 0 18px 14px; font-size: 13px; color: var(--ink-muted); }
+.prompt-actions { display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap; }
+.prompt-analysis-link { font-size: 13px; font-weight: 600; white-space: nowrap; }
+.prompt-article { display: flex; flex-direction: column; gap: 42px; max-width: 900px; }
+.analysis-back { align-self: flex-start; font-size: 14px; font-weight: 600; text-decoration-thickness: 1px; }
+.analysis-context { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 24px; background: var(--surface-sunk); border-radius: var(--radius-md); }
+.analysis-context p { margin: 8px 0 0; max-width: 55ch; }
+.analysis-quotes { display: grid; gap: 0; border-top: 1px solid var(--ink); }
+.analysis-quote { display: grid; grid-template-columns: 34px 1fr; gap: 8px 18px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+.analysis-quote-num { grid-row: 1 / 3; color: var(--ink-muted); font: 12px/22px var(--font-mono); }
+.analysis-quote blockquote { margin: 0; font-family: var(--font-serif); font-size: 22px; line-height: 1.35; overflow-wrap: anywhere; }
+.analysis-quote blockquote::before { content: '«'; }
+.analysis-quote blockquote::after { content: '»'; }
+.analysis-quote p { margin: 0; max-width: 68ch; color: var(--ink-muted); }
+.analysis-pagination { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+@media (min-width: 720px) { .analysis-context { grid-template-columns: 1fr 1fr; gap: 36px; } .analysis-quote { grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1fr); gap: 24px; } .analysis-quote-num { grid-row: auto; } }
+@media (max-width: 480px) { .prompt-h { align-items: flex-start; flex-direction: column; } .prompt-actions { justify-content: flex-start; } }
 mark.ph { background: var(--clay-soft); color: var(--ink); border-radius: 3px; padding: 0 2px; }
 
 /* файлы */
@@ -7428,11 +7444,13 @@ window.LECTURE_HOST = {
   function linksHTML(v) {
     return `<ul class="links">${v.map(([t, u, n]) => u ? `<li><a href="${esc(u)}"${u[0] === '#' ? '' : ' target="_blank" rel="noopener"'}><span class="t">${md(t)}</span>${n ? `<span class="n">${md(n)}</span>` : ''}<span class="go">${u[0] === '#' ? '→' : '↗'}</span></a></li>` : `<li><div class="nolink"><span class="t">${md(t)}</span>${n ? `<span class="n">${md(n)}</span>` : ''}<span class="go">проверить</span></div></li>`).join('')}</ul>`;
   }
-  function promptHTML(name) {
+  function promptHTML(name, hideAnalysisLink = false) {
     const p = D.prompts[name];
     if (!p) return '';
     const ph = /⟪/.test(p.text);
-    return `<div class="prompt"><div class="prompt-h"><span class="nm">${esc(name)}</span><button class="btn" data-copy="${esc(name)}">Скопировать</button></div><pre>${md(p.text, true)}</pre>${ph ? `<div class="hint">Подсвечены места, которые нужно заменить своим: бриф, требования, пример.</div>` : ''}${p.note ? `<div class="hint">${md(p.note)}</div>` : ''}</div>`;
+    const index = Object.keys(D.prompts).indexOf(name);
+    const analysisLink = !hideAnalysisLink && D.promptAnalysis && D.promptAnalysis[name] && index >= 0 ? `<a class="prompt-analysis-link" href="#razbor-${index + 1}">Разобрать промпт →</a>` : '';
+    return `<div class="prompt"><div class="prompt-h"><span class="nm">${esc(name)}</span><div class="prompt-actions">${analysisLink}<button class="btn" data-copy="${esc(name)}">Скопировать</button></div></div><pre>${md(p.text, true)}</pre>${ph ? `<div class="hint">Подсвечены места, которые нужно заменить своим: бриф, требования, пример.</div>` : ''}${p.note ? `<div class="hint">${md(p.note)}</div>` : ''}</div>`;
   }
   function filesHTML(v, two) {
     return `<div class="files${two ? ' two' : ''}">${v.map(f => {
@@ -7604,6 +7622,22 @@ window.LECTURE_HOST = {
     app.innerHTML = `<div class="app">${topbarPage(id)}<main class="page gut"><div class="page-in">${inner}</div></main></div>${S.toc ? tocHTML() : ''}`;
   }
   const pageHead = (title, lead) => `<header class="page-h"><span class="caps">${esc(D.meta.course)} · неделя ${D.meta.week}</span><h1>${esc(title)}</h1>${lead ? `<p class="lead">${md(lead)}</p>` : ''}</header>`;
+  function viewPromptAnalysis(n) {
+    const names = Object.keys(D.prompts || {}), name = names[n - 1];
+    const a = D.promptAnalysis && D.promptAnalysis[name];
+    if (!name || !a) return false;
+    const previous = n > 1 && D.promptAnalysis[names[n - 2]] ? `<a class="btn" href="#razbor-${n - 1}">← Предыдущий</a>` : '';
+    const next = n < names.length && D.promptAnalysis[names[n]] ? `<a class="btn" href="#razbor-${n + 1}">Следующий →</a>` : '';
+    pageShell('prompty', `<div class="prompt-article"><a class="analysis-back" href="#prompty">← Все промпты</a>
+      <header class="page-h"><span class="caps">Разбор промпта · ${n} из ${names.length}</span><h1>${esc(name)}</h1><p class="lead">${md(a.summary)}</p></header>
+      <section class="analysis-context" aria-label="Что нужно и что получится"><div><span class="caps">Что понадобится</span><p>${md(a.inputs)}</p></div><div><span class="caps">Что получится</span><p>${md(a.output)}</p></div></section>
+      <section class="block"><h2>Из каких частей состоит</h2><p class="sub">Цитаты из промпта и объяснение, что каждая часть задаёт Codex.</p><div class="analysis-quotes">${a.quotes.map((q, i) => `<article class="analysis-quote"><div class="analysis-quote-num">${String(i + 1).padStart(2, '0')}</div><blockquote>${md(q.quote, true)}</blockquote><p>${md(q.explanation)}</p></article>`).join('')}</div></section>
+      <section class="block"><h2>Промпт целиком</h2><p class="sub">Скопируйте и замените выделенные места своими данными.</p>${promptHTML(name, true)}</section>
+      <nav class="analysis-pagination" aria-label="Другие разборы">${previous}<a class="analysis-back" href="#prompty">Все промпты</a>${next}</nav></div>`);
+    document.title = `Разбор: ${name} — ${D.meta.course}, неделя ${D.meta.week}`;
+    window.scrollTo(0, 0);
+    return true;
+  }
   function checklist(key, items, title) {
     const done = items.filter((_, i) => store.get(`ck:${key}:${i}`, false)).length;
     return `<div class="check" data-check="${esc(key)}"><div class="check-h"><span class="caps">${esc(title || 'Что должно получиться')}</span><span class="cnt" data-cnt>${done} из ${items.length}</span></div>${items.map((x, i) => `<label><input type="checkbox" id="ck-${esc(key)}-${i}" data-ck="${esc(key)}:${i}"${store.get(`ck:${key}:${i}`, false) ? ' checked' : ''}><span>${md(x)}</span></label>`).join('')}</div>`;
@@ -7775,6 +7809,8 @@ window.LECTURE_HOST = {
     const h = decodeURIComponent(location.hash.slice(1)) || 'home';
     const m = h.match(/^s(\d+)(p?)$/);
     if (m && byN.has(+m[1])) return viewSlide(+m[1], m[2] ? 1 : 0);
+    const analysis = h.match(/^razbor-(\d+)$/);
+    if (analysis && viewPromptAnalysis(+analysis[1])) return;
     if (h === 'pult' && HOST) return viewPult();
     if (PAGE_VIEWS[h] && hasPage(h)) { PAGE_VIEWS[h](); window.scrollTo(0, 0); return; }
     return viewHome();

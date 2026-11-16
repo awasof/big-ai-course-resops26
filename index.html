@@ -366,6 +366,22 @@ a.chip:hover { background: var(--line); }
 .prompt-h .nm { font-size: 14px; font-weight: 500; }
 .prompt pre { margin: 0; padding: 16px 18px; font-family: var(--font-mono); font-size: 14px; line-height: 22px; white-space: pre-wrap; word-break: break-word; }
 .prompt .hint { padding: 0 18px 14px; font-size: 13px; color: var(--ink-muted); }
+.prompt-actions { display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap; }
+.prompt-analysis-link { font-size: 13px; font-weight: 600; white-space: nowrap; }
+.prompt-article { display: flex; flex-direction: column; gap: 42px; max-width: 900px; }
+.analysis-back { align-self: flex-start; font-size: 14px; font-weight: 600; text-decoration-thickness: 1px; }
+.analysis-context { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 24px; background: var(--surface-sunk); border-radius: var(--radius-md); }
+.analysis-context p { margin: 8px 0 0; max-width: 55ch; }
+.analysis-quotes { display: grid; gap: 0; border-top: 1px solid var(--ink); }
+.analysis-quote { display: grid; grid-template-columns: 34px 1fr; gap: 8px 18px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+.analysis-quote-num { grid-row: 1 / 3; color: var(--ink-muted); font: 12px/22px var(--font-mono); }
+.analysis-quote blockquote { margin: 0; font-family: var(--font-serif); font-size: 22px; line-height: 1.35; overflow-wrap: anywhere; }
+.analysis-quote blockquote::before { content: '«'; }
+.analysis-quote blockquote::after { content: '»'; }
+.analysis-quote p { margin: 0; max-width: 68ch; color: var(--ink-muted); }
+.analysis-pagination { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+@media (min-width: 720px) { .analysis-context { grid-template-columns: 1fr 1fr; gap: 36px; } .analysis-quote { grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1fr); gap: 24px; } .analysis-quote-num { grid-row: auto; } }
+@media (max-width: 480px) { .prompt-h { align-items: flex-start; flex-direction: column; } .prompt-actions { justify-content: flex-start; } }
 mark.ph { background: var(--clay-soft); color: var(--ink); border-radius: 3px; padding: 0 2px; }
 
 /* файлы */
