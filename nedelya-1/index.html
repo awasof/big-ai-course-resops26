@@ -7483,8 +7483,10 @@ window.LECTURE_HOST = {
       none: 'На этом шаге отдельный навык не требуется'
     })[skillInfo.mode];
     const skillPanels = skillInfo ? (skillInfo.skills || []).map(id => {
-      const item = D.skillAnalysis && D.skillAnalysis[id];
-      if (!item) return '';
+      const base = D.skillAnalysis && D.skillAnalysis[id];
+      if (!base) return '';
+      const specific = D.promptSkillAnalysis && D.promptSkillAnalysis[name] && D.promptSkillAnalysis[name][id];
+      const item = specific ? { ...base, ...specific } : base;
       const file = fileOf({t: id + '.zip'});
       return `<article class="skill-analysis-item"><h4>${md(item.title)} <span class="skill-analysis-name">${esc(id)}</span></h4><p>${md(item.purpose)}</p>${file ? `<a class="skill-analysis-download" href="${esc(file[0])}" download>Скачать навык ↓</a>` : ''}<div class="analysis-quotes">${(item.quotes || []).map(analysisQuoteHTML).join('')}</div></article>`;
     }).join('') : '';
