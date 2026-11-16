@@ -367,7 +367,16 @@ a.chip:hover { background: var(--line); }
 .prompt pre { margin: 0; padding: 16px 18px; font-family: var(--font-mono); font-size: 14px; line-height: 22px; white-space: pre-wrap; word-break: break-word; }
 .prompt .hint { padding: 0 18px 14px; font-size: 13px; color: var(--ink-muted); }
 .prompt-actions { display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap; }
-.prompt-analysis-link { font-size: 13px; font-weight: 600; white-space: nowrap; }
+.prompt-analysis-link { font: inherit; font-size: 13px; font-weight: 600; white-space: nowrap; color: var(--ink); background: transparent; border: 0; padding: 8px 0; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.prompt-analysis-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.prompt-analysis-inline { padding: 20px 18px 24px; border-top: 1px solid var(--line); }
+.prompt-analysis-inline[hidden] { display: none; }
+.prompt-analysis-inline h3 { margin: 0 0 8px; font-size: 20px; }
+.prompt-analysis-inline h4 { margin: 24px 0 12px; font-size: 16px; }
+.prompt-analysis-inline .analysis-summary { margin: 0 0 16px; color: var(--ink-muted); }
+.prompt-analysis-inline .analysis-context { background: var(--surface); padding: 16px; }
+.prompt-analysis-inline .analysis-quote { padding: 16px 0; }
+.prompt-analysis-inline .analysis-quote blockquote { font-size: 18px; }
 .prompt-article { display: flex; flex-direction: column; gap: 42px; max-width: 900px; }
 .analysis-back { align-self: flex-start; font-size: 14px; font-weight: 600; text-decoration-thickness: 1px; }
 .analysis-context { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 24px; background: var(--surface-sunk); border-radius: var(--radius-md); }
