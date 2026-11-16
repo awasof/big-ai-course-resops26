@@ -4645,7 +4645,7 @@ window.LECTURE_HOST = {
     const ph = /⟪/.test(p.text);
     const index = Object.keys(D.prompts).indexOf(name);
     const analysisLink = !hideAnalysisLink && D.promptAnalysis && D.promptAnalysis[name] && index >= 0 ? `<a class="prompt-analysis-link" href="#razbor-${index + 1}">Разобрать промпт →</a>` : '';
-    return `<div class="prompt"><div class="prompt-h"><span class="nm">${esc(name)}</span><div class="prompt-actions">${analysisLink}<button class="btn" data-copy="${esc(name)}">Скопировать</button></div></div><pre>${md(p.text, true)}</pre>${ph ? `<div class="hint">Подсвечены места, которые нужно заменить своим: бриф, требования, пример.</div>` : ''}${p.note ? `<div class="hint">${md(p.note)}</div>` : ''}</div>`;
+    return `<div class="prompt"><div class="prompt-h"><span class="nm">${esc(name)}</span><div class="prompt-actions">${analysisLink}<button class="btn" data-copy="${esc(name)}">Скопировать</button></div></div><pre>${md(p.text, true)}</pre>${ph ? `<div class="hint">Подсвечены места, которые нужно заменить своим: бриф, требования, пример${D.meta.week === 5 ? '' : '.'}</div>` : ''}${p.note ? `<div class="hint">${md(p.note)}</div>` : ''}</div>`;
   }
   function filesHTML(v, two) {
     return `<div class="files${two ? ' two' : ''}">${v.map(f => {
@@ -4789,7 +4789,7 @@ window.LECTURE_HOST = {
         <ol class="map-rows">${rows}</ol>
       </section>
       <section class="block"><h2>Что обещаем и чего нет</h2><div class="two"><div><h3 class="col-h">Обещаем</h3><div class="prose">${ul(D.promise)}</div></div><div><h3 class="col-h" style="border-top-color:var(--line)">Не обещаем</h3><div class="prose">${ul(D.nopromise)}</div></div></div></section>
-      <section class="block"><h2>Неделя ${D.meta.week} в курсе</h2><p class="sub">Недели складываются в одну линию: результат одной становится материалом следующей.</p>${tableHTML({ head: ['Неделя', 'Тема', 'Ведёт', 'На выходе'], rows: D.weeks.map(w => [String(w[0]), w[1], w[2], w[3]]), mark: D.meta.week - 1 }).replace('class="dt"', 'class="dt weeks"')}</section>
+      <section class="block"><h2>Неделя ${D.meta.week} в курсе</h2><p class="sub">Недели складываются в одну линию: результат одной становится материалом следующей${D.meta.week === 5 ? '' : '.'}</p>${tableHTML({ head: ['Неделя', 'Тема', 'Ведёт', 'На выходе'], rows: D.weeks.map(w => [String(w[0]), w[1], w[2], w[3]]), mark: D.meta.week - 1 }).replace('class="dt"', 'class="dt weeks"')}</section>
       <section class="block"><h2>Ритм недели</h2>${tableHTML({ head: ['Когда', 'Что'], rows: D.rhythm })}</section>
       <section class="block"><h2>Ещё на сайте</h2><div class="files two">${PAGE_ORDER.filter(id => id !== 'home' && hasPage(id)).map(id => `<a class="file" href="#${id}"><span class="ext">${esc(PAGES[id].ext)}</span><span><span class="t">${esc(PAGES[id].title)}</span><br><span class="n">${esc(PAGES[id].sub)}</span></span></a>`).join('')}</div></section>
       <p class="muted" style="font-size:13px;margin:0">${md(m.updatedNote)}</p>
@@ -4826,8 +4826,8 @@ window.LECTURE_HOST = {
     pageShell('prompty', `<div class="prompt-article"><a class="analysis-back" href="#prompty">← Все промпты</a>
       <header class="page-h"><span class="caps">Разбор промпта · ${n} из ${names.length}</span><h1>${esc(name)}</h1><p class="lead">${md(a.summary)}</p></header>
       <section class="analysis-context" aria-label="Что нужно и что получится"><div><span class="caps">Что понадобится</span><p>${md(a.inputs)}</p></div><div><span class="caps">Что получится</span><p>${md(a.output)}</p></div></section>
-      <section class="block"><h2>Из каких частей состоит</h2><p class="sub">Цитаты из промпта и объяснение, что каждая часть задаёт ИИ-агенту.</p><div class="analysis-quotes">${a.quotes.map((q, i) => `<article class="analysis-quote"><div class="analysis-quote-num">${String(i + 1).padStart(2, '0')}</div><blockquote>${md(q.quote, true)}</blockquote><p>${md(q.explanation)}</p></article>`).join('')}</div></section>
-      <section class="block"><h2>Промпт целиком</h2><p class="sub">Скопируйте и замените выделенные места своими данными.</p>${promptHTML(name, true)}</section>
+      <section class="block"><h2>Из каких частей состоит</h2><p class="sub">Цитаты из промпта и объяснение, что каждая часть задаёт ИИ-агенту${D.meta.week === 5 ? '' : '.'}</p><div class="analysis-quotes">${a.quotes.map((q, i) => `<article class="analysis-quote"><div class="analysis-quote-num">${String(i + 1).padStart(2, '0')}</div><blockquote>${md(q.quote, true)}</blockquote><p>${md(q.explanation)}</p></article>`).join('')}</div></section>
+      <section class="block"><h2>Промпт целиком</h2><p class="sub">Скопируйте и замените выделенные места своими данными${D.meta.week === 5 ? '' : '.'}</p>${promptHTML(name, true)}</section>
       <nav class="analysis-pagination" aria-label="Другие разборы">${previous}<a class="analysis-back" href="#prompty">Все промпты</a>${next}</nav></div>`);
     document.title = `Разбор: ${name} — ${D.meta.course}, неделя ${D.meta.week}`;
     window.scrollTo(0, 0);
@@ -4844,7 +4844,7 @@ window.LECTURE_HOST = {
         <section class="block"><h2>Обязательно</h2><div class="cos" style="gap:16px">${D.hw.must.map(card).join('')}</div></section>
         <section class="block"><h2>По желанию</h2><div class="cos" style="gap:16px">${D.hw.opt.map(card).join('')}</div></section>
         <section class="block"><h2>Что принести в субботу</h2>${checklist('bring', D.hw.bring, 'Для разбора работ')}</section>
-        <section class="block"><h2>Для любопытных</h2><p class="sub" style="margin:0">Видео, гайды и статьи — на отдельной странице.</p><div><a class="btn" href="#lyubopytnym">Для любопытных →</a></div></section>`);
+        <section class="block"><h2>Для любопытных</h2><p class="sub" style="margin:0">Видео, гайды и статьи — на отдельной странице${D.meta.week === 5 ? '' : '.'}</p><div><a class="btn" href="#lyubopytnym">Для любопытных →</a></div></section>`);
     },
     materialy() {
       const M = D.pages.materials;
@@ -4872,7 +4872,7 @@ window.LECTURE_HOST = {
       const P = D.pages.prep;
       const checks = ALL.filter(s => s.check).map(s => `<li><a href="#s${s.n}">Слайд ${s.n}</a>: ${s.check.map(md).join(' ')}</li>`).join('');
       pageShell('podgotovka', `${pageHead('Подготовка ведущего', P.lead)}
-        ${P.tasks ? `<section class="block"><h2>Задачи до занятия</h2><p class="sub">Сделать руками: скриншоты, прогоны, проверки. После каждого пункта — пересобрать сайт.</p>${checklist('prep-tasks', P.tasks.map(([a, b]) => `**${a}** — ${b}`), 'Задачи')}</section>` : ''}
+        ${P.tasks ? `<section class="block"><h2>Задачи до занятия</h2><p class="sub">Сделать руками: скриншоты, прогоны, проверки. После каждого пункта — пересобрать сайт${D.meta.week === 5 ? '' : '.'}</p>${checklist('prep-tasks', P.tasks.map(([a, b]) => `**${a}** — ${b}`), 'Задачи')}</section>` : ''}
         <section class="block"><h2>Что подготовить</h2>${checklist('prep-mat', P.materials.map(([a, b]) => `**${a}** — ${b}`), 'Материалы')}</section>
         ${P.key ? `<section class="block"><h2>Ключ к учебной выгрузке</h2><div class="prose">${ul(P.key)}</div></section>` : ''}
         <section class="block"><h2>Что проверить перед занятием</h2>${checklist('prep-check', P.checks, 'Проверки')}</section>
