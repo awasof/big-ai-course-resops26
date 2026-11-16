@@ -4721,7 +4721,7 @@ window.LECTURE_HOST = {
     for (const p of arr(m.prompt)) h += promptHTML(p);
     for (const id of arr(m.skillFull)) {
       const skill = D.skillTexts && D.skillTexts[id];
-      if (typeof skill === 'string') h += `<details class="skill-full"><summary>Полный текст навыка ${esc(id)}</summary><pre>${esc(skill)}</pre></details>`;
+      if (typeof skill === 'string') h += `<details class="skill-full" open><summary>Полный текст навыка ${esc(id)}</summary><pre>${esc(skill)}</pre></details>`;
     }
     if (m.html) h += `<div class="x-html xs in-details">${m.html}</div>`;
     if (m.after) h += `<div class="prose">${paras(m.after)}</div>`;
