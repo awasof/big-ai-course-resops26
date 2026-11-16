@@ -377,6 +377,12 @@ a.chip:hover { background: var(--line); }
 .prompt-analysis-inline .analysis-context { background: var(--surface); padding: 16px; }
 .prompt-analysis-inline .analysis-quote { padding: 16px 0; }
 .prompt-analysis-inline .analysis-quote blockquote { font-size: 18px; }
+.skill-analysis-item + .skill-analysis-item { margin-top: 28px; }
+.skill-analysis-item > h4 { margin: 0 0 8px; }
+.skill-analysis-item > p { margin: 0 0 12px; }
+.skill-analysis-name { font: 12px/1.4 var(--font-mono); color: var(--ink-muted); overflow-wrap: anywhere; }
+.skill-analysis-download { display: inline-block; margin: 0 0 18px; font-size: 13px; font-weight: 600; text-underline-offset: 4px; }
+
 .prompt-article { display: flex; flex-direction: column; gap: 42px; max-width: 900px; }
 .analysis-back { align-self: flex-start; font-size: 14px; font-weight: 600; text-decoration-thickness: 1px; }
 .analysis-context { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 24px; background: var(--surface-sunk); border-radius: var(--radius-md); }
@@ -2048,7 +2054,7 @@ window.LECTURE = {
       "more": [
         {
           "h": "Запуск и файлы",
-          "text": "Навыки: stroka-sravneniya, nezavisimyj-pereschet. Вход: Сырая выгрузка, паспорт, выбранные показатели. Навык: `nezavisimyj-pereschet` — `files/nezavisimyj-pereschet.zip`. Ожидаемый результат: Отчёт пересчёта и варианты",
+          "text": "Вход: сырая выгрузка, паспорт и выбранные показатели. Выход: сравнение, независимый пересчёт и варианты интерпретации",
           "prompt": [
             "Шаг 15. Пересчёт и сравнение"
           ],
@@ -2112,7 +2118,7 @@ window.LECTURE = {
       "more": [
         {
           "h": "Запуск и файлы",
-          "text": "Навыки: kodirovanie-otkrytyh, proverka-razmetki. Вход: Открытый вопрос и небольшая выборка. Навык: `kodirovanie-otkrytyh` — `files/kodirovanie-otkrytyh.zip`. Ожидаемый результат: Кодбук и пример разметки",
+          "text": "Вход: открытый вопрос и небольшая выборка. Выход: черновик кодбука и пример разметки",
           "prompt": [
             "Шаг 16. Открытые ответы"
           ],
@@ -2176,7 +2182,7 @@ window.LECTURE = {
       "more": [
         {
           "h": "Запуск и файлы",
-          "text": "Навыки: kartochki-vyvodov, audit-vyvodov. Вход: Проверенные таблицы и план. Навык: `kartochki-vyvodov` — `files/kartochki-vyvodov.zip`. Ожидаемый результат: Карточки выводов",
+          "text": "Вход: проверенные таблицы и план. Выход: карточки выводов и независимый аудит",
           "prompt": [
             "Шаг 17. Карточки выводов"
           ],
@@ -2542,7 +2548,7 @@ window.LECTURE = {
     ]
   ],
   "pages": {
-    "promptsLead": "Промпты шагов занятия и дополнительные промпты. Откройте разбор, чтобы увидеть назначение отдельных фрагментов",
+    "promptsLead": "Промпты занятия и дополнительные запросы. Откройте разбор промпта или навыка, чтобы увидеть, как они работают",
     "termsLead": "Исследовательские понятия вы знаете. Здесь — слова, без которых не получится работать с опросом через ИИ, и как мы понимаем их на курсе. У каждого — ссылка на слайд",
     "terms": [
       [
@@ -3880,6 +3886,358 @@ window.LECTURE = {
         }
       ]
     }
+  },
+  "skillAnalysis": {
+    "pasport-oprosa": {
+      "title": "Паспорт опроса",
+      "purpose": "Помогает связать решения из брифа с планом анализа, анкетой и картой данных",
+      "quotes": [
+        {
+          "quote": "Выпиши решения заказчика из брифа",
+          "explanation": "План начинается с решений, ради которых проводится исследование"
+        },
+        {
+          "quote": "На каждое решение — исследовательские вопросы",
+          "explanation": "Исследовательские вопросы помогают проверить, что спросить и зачем"
+        },
+        {
+          "quote": "План анализа утверждает исследователь",
+          "explanation": "ИИ-агент останавливается перед созданием анкеты и ждёт решения"
+        }
+      ]
+    },
+    "recenzent-ankety": {
+      "title": "Рецензент анкеты",
+      "purpose": "Проверяет черновик анкеты в отдельной сессии и собирает замечания для исследователя",
+      "quotes": [
+        {
+          "quote": "Чистая сессия",
+          "explanation": "Проверяющему дают файлы без переписки автора"
+        },
+        {
+          "quote": "рецензент ищет и оценивает, а решает исследователь",
+          "explanation": "Замечания помогают принять решение, но не заменяют его"
+        }
+      ]
+    },
+    "sinteticheskaya-vygruzka": {
+      "title": "Учебная синтетическая выгрузка",
+      "purpose": "Создаёт искусственные ответы по анкете, карте данных и плану выборки",
+      "quotes": [
+        {
+          "quote": "Результат — только учебная синтетика, не данные реального поля",
+          "explanation": "Сгенерированные ответы нельзя выдавать за ответы людей"
+        },
+        {
+          "quote": "Сверь структуру, ID, коды, пропуски и маршруты программой",
+          "explanation": "Скрипт проверяет, что выгрузка подходит для следующих шагов"
+        }
+      ]
+    },
+    "priem-vygruzki": {
+      "title": "Приём выгрузки",
+      "purpose": "Помогает проверить файл, обсудить правила чистки и посчитать топлайн",
+      "quotes": [
+        {
+          "quote": "правила чистки без паспорта не придумывай",
+          "explanation": "Правила берутся из паспорта или обсуждаются с исследователем"
+        },
+        {
+          "quote": "У каждой находки — число строк и номера нескольких анкет",
+          "explanation": "Сигналы можно проверить по конкретным записям"
+        }
+      ]
+    },
+    "stroka-sravneniya": {
+      "title": "Сравнение групп",
+      "purpose": "Считает различия групп и помогает обсудить их смысл",
+      "quotes": [
+        {
+          "quote": "Не придумывай практический порог",
+          "explanation": "Практическую важность обсуждает исследователь"
+        },
+        {
+          "quote": "Покажи данные, неопределённость и ограничения",
+          "explanation": "Вывод рассматривается вместе с базами и неопределённостью"
+        }
+      ]
+    },
+    "nezavisimyj-pereschet": {
+      "title": "Независимый пересчёт",
+      "purpose": "Проверяет ключевые числа в новой сессии, отдельно от авторского кода",
+      "quotes": [
+        {
+          "quote": "Чистая сессия",
+          "explanation": "Проверка начинается в новом контексте"
+        },
+        {
+          "quote": "Пиши свой код с нуля",
+          "explanation": "Второй расчёт не повторяет чужой скрипт"
+        }
+      ]
+    },
+    "kodirovanie-otkrytyh": {
+      "title": "Кодирование открытых ответов",
+      "purpose": "Помогает создать кодбук и разметить открытые ответы по правилам",
+      "quotes": [
+        {
+          "quote": "Кодбук утверждает он",
+          "explanation": "Коды согласует исследователь перед разметкой"
+        },
+        {
+          "quote": "Ручной разметки нет — так и скажи",
+          "explanation": "Без независимой ручной разметки нельзя оценить ошибку модели"
+        }
+      ]
+    },
+    "proverka-razmetki": {
+      "title": "Проверка разметки",
+      "purpose": "Сравнивает разметку модели с ручной контрольной выборкой",
+      "quotes": [
+        {
+          "quote": "Чистая сессия",
+          "explanation": "Проверяющий работает отдельно от автора разметки"
+        },
+        {
+          "quote": "Ручной разметки нет — проверка неполная",
+          "explanation": "Отсутствие ручного контроля нужно указать в результате"
+        }
+      ]
+    },
+    "kartochki-vyvodov": {
+      "title": "Карточки выводов",
+      "purpose": "Собирает выводы по таблицам и предлагает варианты действий исследователю",
+      "quotes": [
+        {
+          "quote": "Источники чисел — только эти",
+          "explanation": "Числа должны опираться на подготовленные файлы"
+        },
+        {
+          "quote": "варианты предлагает модель, выбирает исследователь",
+          "explanation": "Выбор действия остаётся за исследователем"
+        }
+      ]
+    },
+    "audit-vyvodov": {
+      "title": "Аудит выводов",
+      "purpose": "Проверяет числа и формулировки карточек по исходным таблицам",
+      "quotes": [
+        {
+          "quote": "программа ищет числа в таблицах",
+          "explanation": "Расчёт помогает найти числа без источника"
+        },
+        {
+          "quote": "Предпочтения пользователя не отменяют проверку соответствия текста данным",
+          "explanation": "Формулировка должна соответствовать доступным данным"
+        }
+      ]
+    }
+  },
+  "promptSkills": {
+    "Паспорт опроса": {
+      "mode": "suggested",
+      "skills": [
+        "pasport-oprosa"
+      ]
+    },
+    "План анализа и размер выборки": {
+      "mode": "suggested",
+      "skills": [
+        "pasport-oprosa"
+      ]
+    },
+    "Спецификация анкеты": {
+      "mode": "suggested",
+      "skills": [
+        "pasport-oprosa"
+      ]
+    },
+    "Рецензент анкеты": {
+      "mode": "suggested",
+      "skills": [
+        "recenzent-ankety"
+      ]
+    },
+    "Синтетический прогон": {
+      "mode": "suggested",
+      "skills": [
+        "recenzent-ankety"
+      ]
+    },
+    "Таблица маршрутов": {
+      "mode": "suggested",
+      "skills": [
+        "recenzent-ankety"
+      ]
+    },
+    "Карта данных и водопад": {
+      "mode": "suggested",
+      "skills": [
+        "priem-vygruzki"
+      ]
+    },
+    "Топлайн с контрольными числами": {
+      "mode": "suggested",
+      "skills": [
+        "priem-vygruzki"
+      ]
+    },
+    "Независимый пересчёт": {
+      "mode": "suggested",
+      "skills": [
+        "nezavisimyj-pereschet"
+      ]
+    },
+    "Кодбук по выборке": {
+      "mode": "suggested",
+      "skills": [
+        "kodirovanie-otkrytyh"
+      ]
+    },
+    "Разметка пачкой": {
+      "mode": "suggested",
+      "skills": [
+        "kodirovanie-otkrytyh"
+      ]
+    },
+    "Согласие разметки": {
+      "mode": "suggested",
+      "skills": [
+        "proverka-razmetki"
+      ]
+    },
+    "Коды в цифры": {
+      "mode": "suggested",
+      "skills": [
+        "kodirovanie-otkrytyh"
+      ]
+    },
+    "Строка сравнения": {
+      "mode": "suggested",
+      "skills": [
+        "stroka-sravneniya"
+      ]
+    },
+    "Карточки выводов": {
+      "mode": "suggested",
+      "skills": [
+        "kartochki-vyvodov"
+      ]
+    },
+    "Аудит утверждений": {
+      "mode": "suggested",
+      "skills": [
+        "audit-vyvodov"
+      ]
+    },
+    "Упакуй в навык": {
+      "mode": "choose",
+      "skills": []
+    },
+    "Шаг 01. Вход и четыре принципа": {
+      "mode": "none",
+      "skills": []
+    },
+    "Шаг 02. Из брифа в план анализа": {
+      "mode": "explicit",
+      "skills": [
+        "pasport-oprosa"
+      ]
+    },
+    "Шаг 03. Спецификация анкеты": {
+      "mode": "explicit",
+      "skills": [
+        "pasport-oprosa"
+      ]
+    },
+    "Шаг 04. Независимый рецензент": {
+      "mode": "explicit",
+      "skills": [
+        "recenzent-ankety"
+      ]
+    },
+    "Шаг 05. Аудитория и набор": {
+      "mode": "explicit",
+      "skills": [
+        "pasport-oprosa"
+      ]
+    },
+    "Шаг 06. Сценарии размера выборки": {
+      "mode": "explicit",
+      "skills": [
+        "pasport-oprosa"
+      ]
+    },
+    "Шаг 07. Маршруты анкеты": {
+      "mode": "explicit",
+      "skills": [
+        "pasport-oprosa",
+        "recenzent-ankety"
+      ]
+    },
+    "Шаг 08. Подготовка учебных ответов": {
+      "mode": "explicit",
+      "skills": [
+        "sinteticheskaya-vygruzka"
+      ]
+    },
+    "Шаг 09. Домашнее задание": {
+      "mode": "choose",
+      "skills": []
+    },
+    "Шаг 10. Загрузка контекста": {
+      "mode": "none",
+      "skills": []
+    },
+    "Шаг 11. Приём выгрузки": {
+      "mode": "explicit",
+      "skills": [
+        "priem-vygruzki"
+      ]
+    },
+    "Шаг 12. Решения о чистке": {
+      "mode": "explicit",
+      "skills": [
+        "priem-vygruzki"
+      ]
+    },
+    "Шаг 13. Водопад чистки": {
+      "mode": "explicit",
+      "skills": [
+        "priem-vygruzki"
+      ]
+    },
+    "Шаг 14. Топлайн": {
+      "mode": "explicit",
+      "skills": [
+        "priem-vygruzki"
+      ]
+    },
+    "Шаг 15. Пересчёт и сравнение": {
+      "mode": "explicit",
+      "skills": [
+        "stroka-sravneniya",
+        "nezavisimyj-pereschet"
+      ]
+    },
+    "Шаг 16. Открытые ответы": {
+      "mode": "explicit",
+      "skills": [
+        "kodirovanie-otkrytyh",
+        "proverka-razmetki"
+      ]
+    },
+    "Шаг 17. Карточки выводов": {
+      "mode": "explicit",
+      "skills": [
+        "kartochki-vyvodov",
+        "audit-vyvodov"
+      ]
+    },
+    "Шаг 18. Домашнее задание": {
+      "mode": "choose",
+      "skills": []
+    }
   }
 };
 
@@ -4414,19 +4772,36 @@ window.LECTURE_HOST = {
     return `<ul class="links">${v.map(([t, u, n]) => u ? `<li><a href="${esc(u)}"${u[0] === '#' ? '' : ' target="_blank" rel="noopener"'}><span class="t">${md(t)}</span>${n ? `<span class="n">${md(n)}</span>` : ''}<span class="go">${u[0] === '#' ? '→' : '↗'}</span></a></li>` : `<li><div class="nolink"><span class="t">${md(t)}</span>${n ? `<span class="n">${md(n)}</span>` : ''}<span class="go">проверить</span></div></li>`).join('')}</ul>`;
   }
   let promptAnalysisId = 0;
+  const analysisQuoteHTML = (q, i) => `<article class="analysis-quote"><div class="analysis-quote-num">${String(i + 1).padStart(2, '0')}</div><blockquote>${md(D.meta.week === 5 ? q.quote.replace(/(?<!\.)\.$/, '') : q.quote, true)}</blockquote><p>${md(q.explanation)}</p></article>`;
   function promptHTML(name, hideAnalysisLink = false) {
     const p = D.prompts[name];
     if (!p) return '';
     const ph = /⟪/.test(p.text);
     const analysis = !hideAnalysisLink && D.promptAnalysis && D.promptAnalysis[name];
+    const skillInfo = D.promptSkills && D.promptSkills[name];
     const panelId = analysis ? `prompt-analysis-${++promptAnalysisId}` : '';
-    const analysisButton = analysis ? `<button type="button" class="prompt-analysis-link" data-act="prompt-analysis" aria-expanded="false" aria-controls="${panelId}">Разобрать промпт ↓</button>` : '';
+    const skillPanelId = skillInfo ? `skill-analysis-${++promptAnalysisId}` : '';
+    const analysisButton = analysis ? `<button type="button" class="prompt-analysis-link" data-act="prompt-analysis" data-open-label="Разобрать промпт ↓" data-close-label="Свернуть разбор промпта ↑" aria-expanded="false" aria-controls="${panelId}">Разобрать промпт ↓</button>` : '';
+    const skillButton = skillInfo ? `<button type="button" class="prompt-analysis-link" data-act="prompt-analysis" data-open-label="Разобрать навык ↓" data-close-label="Свернуть разбор навыка ↑" aria-expanded="false" aria-controls="${skillPanelId}">Разобрать навык ↓</button>` : '';
     const analysisPanel = analysis ? `<section id="${panelId}" class="prompt-analysis-inline" hidden aria-label="Разбор промпта">
       <h3>Разбор промпта</h3><p class="analysis-summary">${md(analysis.summary)}</p>
       <div class="analysis-context"><div><span class="caps">Что понадобится</span><p>${md(analysis.inputs)}</p></div><div><span class="caps">Что получится</span><p>${md(analysis.output)}</p></div></div>
-      <h4>Из каких частей состоит</h4><div class="analysis-quotes">${(analysis.quotes || []).map((q, i) => `<article class="analysis-quote"><div class="analysis-quote-num">${String(i + 1).padStart(2, '0')}</div><blockquote>${md(D.meta.week === 5 ? q.quote.replace(/(?<!\.)\.$/, '') : q.quote, true)}</blockquote><p>${md(q.explanation)}</p></article>`).join('')}</div>
+      <h4>Из каких частей состоит</h4><div class="analysis-quotes">${(analysis.quotes || []).map(analysisQuoteHTML).join('')}</div>
     </section>` : '';
-    return `<div class="prompt"><div class="prompt-h"><span class="nm">${esc(name)}</span><div class="prompt-actions">${analysisButton}<button class="btn" data-copy="${esc(name)}">Скопировать</button></div></div><pre>${md(p.text, true)}</pre>${ph ? `<div class="hint">Подсвечены места, которые нужно заменить своим: бриф, требования, пример${D.meta.week === 5 ? '' : '.'}</div>` : ''}${p.note ? `<div class="hint">${md(p.note)}</div>` : ''}${analysisPanel}</div>`;
+    const skillIntro = skillInfo && ({
+      explicit: 'Навыки, указанные в этом промпте',
+      suggested: 'В промпте навык не указан. Для этой задачи можно использовать',
+      choose: 'Выберите навык, с которым работали: он заранее не задан',
+      none: 'На этом шаге отдельный навык не требуется'
+    })[skillInfo.mode];
+    const skillPanels = skillInfo ? (skillInfo.skills || []).map(id => {
+      const item = D.skillAnalysis && D.skillAnalysis[id];
+      if (!item) return '';
+      const file = fileOf({t: id + '.zip'});
+      return `<article class="skill-analysis-item"><h4>${md(item.title)} <span class="skill-analysis-name">${esc(id)}</span></h4><p>${md(item.purpose)}</p>${file ? `<a class="skill-analysis-download" href="${esc(file[0])}" download>Скачать навык ↓</a>` : ''}<div class="analysis-quotes">${(item.quotes || []).map(analysisQuoteHTML).join('')}</div></article>`;
+    }).join('') : '';
+    const skillPanel = skillInfo ? `<section id="${skillPanelId}" class="prompt-analysis-inline" hidden aria-label="Разбор навыка"><h3>Разбор навыка</h3><p class="analysis-summary">${md(skillIntro || '')}</p>${skillPanels}</section>` : '';
+    return `<div class="prompt"><div class="prompt-h"><span class="nm">${esc(name)}</span><div class="prompt-actions">${analysisButton}${skillButton}<button class="btn" data-copy="${esc(name)}">Скопировать</button></div></div><pre>${md(p.text, true)}</pre>${ph ? `<div class="hint">Подсвечены места, которые нужно заменить своим: бриф, требования, пример${D.meta.week === 5 ? '' : '.'}</div>` : ''}${p.note ? `<div class="hint">${md(p.note)}</div>` : ''}${analysisPanel}${skillPanel}</div>`;
   }
   function filesHTML(v, two) {
     return `<div class="files${two ? ' two' : ''}">${v.map(f => {
@@ -4845,7 +5220,7 @@ window.LECTURE_HOST = {
     const act = a.dataset.act;
     if (act === 'prompt-analysis') {
       const panel = document.getElementById(a.getAttribute('aria-controls'));
-      if (panel) { const open = panel.hidden; panel.hidden = !open; a.setAttribute('aria-expanded', String(open)); a.textContent = open ? 'Свернуть разбор ↑' : 'Разобрать промпт ↓'; }
+      if (panel) { const open = panel.hidden; panel.hidden = !open; a.setAttribute('aria-expanded', String(open)); a.textContent = open ? a.dataset.closeLabel : a.dataset.openLabel; }
     }
     else if (act === 'next') step(1);
     else if (act === 'prev') step(-1);
