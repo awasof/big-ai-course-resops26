@@ -4826,7 +4826,7 @@ window.LECTURE_HOST = {
     pageShell('prompty', `<div class="prompt-article"><a class="analysis-back" href="#prompty">← Все промпты</a>
       <header class="page-h"><span class="caps">Разбор промпта · ${n} из ${names.length}</span><h1>${esc(name)}</h1><p class="lead">${md(a.summary)}</p></header>
       <section class="analysis-context" aria-label="Что нужно и что получится"><div><span class="caps">Что понадобится</span><p>${md(a.inputs)}</p></div><div><span class="caps">Что получится</span><p>${md(a.output)}</p></div></section>
-      <section class="block"><h2>Из каких частей состоит</h2><p class="sub">Цитаты из промпта и объяснение, что каждая часть задаёт Codex.</p><div class="analysis-quotes">${a.quotes.map((q, i) => `<article class="analysis-quote"><div class="analysis-quote-num">${String(i + 1).padStart(2, '0')}</div><blockquote>${md(q.quote, true)}</blockquote><p>${md(q.explanation)}</p></article>`).join('')}</div></section>
+      <section class="block"><h2>Из каких частей состоит</h2><p class="sub">Цитаты из промпта и объяснение, что каждая часть задаёт ИИ-агенту.</p><div class="analysis-quotes">${a.quotes.map((q, i) => `<article class="analysis-quote"><div class="analysis-quote-num">${String(i + 1).padStart(2, '0')}</div><blockquote>${md(q.quote, true)}</blockquote><p>${md(q.explanation)}</p></article>`).join('')}</div></section>
       <section class="block"><h2>Промпт целиком</h2><p class="sub">Скопируйте и замените выделенные места своими данными.</p>${promptHTML(name, true)}</section>
       <nav class="analysis-pagination" aria-label="Другие разборы">${previous}<a class="analysis-back" href="#prompty">Все промпты</a>${next}</nav></div>`);
     document.title = `Разбор: ${name} — ${D.meta.course}, неделя ${D.meta.week}`;
