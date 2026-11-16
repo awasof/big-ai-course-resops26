@@ -766,6 +766,11 @@ a.file:hover { border-color: var(--ink-muted); }
 .ol-steps .step-shots img { border: 1px solid var(--line); border-radius: 8px; width: auto; max-width: 100%; max-height: 260px; }
 .ol-steps li > span > .prompt, .ol-steps li > span > [class*=prompt] { margin-top: 10px; }
 
+/* Полные тексты навыков под учебными слайдами */
+.skill-full { margin: 16px 0; border: 1px solid var(--line, #dedcd4); border-radius: 14px; padding: 16px 20px; }
+.skill-full summary { cursor: pointer; font-weight: 600; }
+.skill-full pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; line-height: 1.55; margin: 18px 0 0; }
+
 /* Главная курса: недели Игоря и все шесть недель. Только токены из styles.css курса. */
 .hub-weeks { display: grid; grid-template-columns: 1fr; gap: 16px; }
 @media (min-width: 900px) { .hub-weeks { grid-template-columns: repeat(3, 1fr); } }
